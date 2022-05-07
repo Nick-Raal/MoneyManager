@@ -20,7 +20,7 @@ class Main {
           FileWriter fw = new FileWriter("dat.txt", true);
           DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd ");  
           LocalDateTime now = LocalDateTime.now();  
-          fw.write(dtf.format(now) + "$" + money);
+          fw.write(dtf.format(now) + "$" + money + "\n");
           fw.close();
         }catch(Exception e){
           System.out.println(e.getMessage());
@@ -35,7 +35,7 @@ class Main {
           FileWriter fw = new FileWriter("dat.txt", true);
           DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd ");  
           LocalDateTime now = LocalDateTime.now();  
-          fw.write(dtf.format(now) + " $" + -money);
+          fw.write(dtf.format(now) + "$" + -money + "\n");
           fw.close();
         }catch(Exception e){
           System.out.println(e.getMessage());
@@ -49,30 +49,29 @@ class Main {
           double balance = 0;
           while(in.hasNext()){
             String nextLine = in.nextLine();
-            balance += Double.parseDouble(nextLine);
             System.out.println(nextLine);
+            balance += Double.parseDouble(nextLine.substring(nextLine.indexOf("$") + 1));
           }
-          
+          in.close();
+          System.out.println("\nBalance: $" + balance);
           System.out.println("Would you like to remove a transaction?");
           answer = scan.nextLine();
           if(answer.toLowerCase().equals("yes")){
             System.out.println("Which transaction would you like to remove? (mm/dd/yy $amount)");
             answer = scan.nextLine();
-            in.close();
-            in = new Scanner("dat.txt");
-            FileWriter fw = new FileWriter("dat.txt", false);
+            Scanner in2 = new Scanner(new File("dat.txt"));
             ArrayList<String> list = new ArrayList<String>();
-            while(in.hasNext()){
-              list.add(in.nextLine());
+            while(in2.hasNext()){
+              list.add(in2.nextLine());
             }
+            FileWriter fw = new FileWriter("dat.txt", false);
             for(int i = 0; i < list.size(); i++){
               if(!list.get(i).equals(answer)){
-                fw.write(list.get(i));
+                 fw.write(list.get(i));
               }
             }
             fw.close();
           }
-          in.close();
         }catch(Exception e){
           System.out.println(e.getMessage());
         }
