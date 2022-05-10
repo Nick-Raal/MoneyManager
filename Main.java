@@ -10,7 +10,7 @@ class Main {
     while(true){
       System.out.println("Would you like to add or withdraw money or view balance and changes (view for short) or exit the program?");
       String answer = scan.nextLine();
-      if(answer.toLowerCase().equals("add")){
+      if(answer.equalsIgnoreCase("add")){
         try{
           System.out.println("Enter the amount of money you would like to add or a negative number if you wish to exit:");
           double money = Double.parseDouble(scan.nextLine());
@@ -25,7 +25,7 @@ class Main {
         }catch(Exception e){
           System.out.println(e.getMessage());
         } 
-      }else if(answer.toLowerCase().equals("withdraw")){
+      }else if(answer.equalsIgnoreCase("withdraw")){
         try{
           System.out.println("Enter the amount of money you would like to withdraw or a negative number if you wish to exit:");
           double money = Double.parseDouble(scan.nextLine());
@@ -40,10 +40,10 @@ class Main {
         }catch(Exception e){
           System.out.println(e.getMessage());
         }
-      }else if(answer.toLowerCase().equals("exit")){
+      }else if(answer.equalsIgnoreCase("exit")){
         System.out.println("Your data has been saved, goodbye!");
         break;
-      }else if(answer.toLowerCase().equals("view")){
+      }else if(answer.equalsIgnoreCase("view")){
         try{
           Scanner in = new Scanner(new File("dat.txt"));
           double balance = 0;
@@ -56,18 +56,18 @@ class Main {
           System.out.println("\nBalance: $" + balance);
           System.out.println("Would you like to remove a transaction?");
           answer = scan.nextLine();
-          if(answer.toLowerCase().equals("yes")){
+          if(answer.equalsIgnoreCase("yes")){
             System.out.println("Which transaction would you like to remove? (mm/dd/yy $amount)");
             answer = scan.nextLine();
             Scanner in2 = new Scanner(new File("dat.txt"));
-            ArrayList<String> list = new ArrayList<String>();
+            ArrayList<String> list = new ArrayList<>();
             while(in2.hasNext()){
               list.add(in2.nextLine());
             }
             FileWriter fw = new FileWriter("dat.txt", false);
-            for(int i = 0; i < list.size(); i++){
-              if(!list.get(i).equals(answer)){
-                 fw.write(list.get(i));
+            for (String s : list) {
+              if (!s.equals(answer)) {
+                fw.write(s);
               }
             }
             fw.close();
